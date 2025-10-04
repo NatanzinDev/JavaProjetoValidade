@@ -1,29 +1,39 @@
-package Telas;
+package telas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import banco.CriaTabela;
+import banco.ProdutoDao;
+import model.Produto;
 
 public class Cadastrar extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField tnome;
+	private JTextField tvalidade;
+	private JTextField tcodigo;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		CriaTabela.inicializar();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -60,10 +70,10 @@ public class Cadastrar extends JFrame {
 		lblNomeDoProduto.setBounds(424, 70, 453, 60);
 		contentPane.add(lblNomeDoProduto);
 		
-		textField = new JTextField();
-		textField.setBounds(434, 122, 453, 40);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		tnome = new JTextField();
+		tnome.setBounds(434, 122, 453, 40);
+		contentPane.add(tnome);
+		tnome.setColumns(10);
 		
 		JLabel lblValidade = new JLabel("VALIDADE:");
 		lblValidade.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,10 +81,10 @@ public class Cadastrar extends JFrame {
 		lblValidade.setBounds(424, 183, 453, 60);
 		contentPane.add(lblValidade);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(434, 233, 453, 40);
-		contentPane.add(textField_1);
+		tvalidade = new JTextField();
+		tvalidade.setColumns(10);
+		tvalidade.setBounds(434, 233, 453, 40);
+		contentPane.add(tvalidade);
 		
 		JLabel lblCdigoDeBarras = new JLabel("CÓDIGO DE BARRAS:\r\n");
 		lblCdigoDeBarras.setHorizontalAlignment(SwingConstants.CENTER);
@@ -82,14 +92,45 @@ public class Cadastrar extends JFrame {
 		lblCdigoDeBarras.setBounds(434, 295, 453, 60);
 		contentPane.add(lblCdigoDeBarras);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(434, 349, 453, 40);
-		contentPane.add(textField_2);
+		tcodigo = new JTextField();
+		tcodigo.setColumns(10);
+		tcodigo.setBounds(434, 349, 453, 40);
+		contentPane.add(tcodigo);
 		
 		JButton btnNewButton = new JButton("CADASTRAR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					cadastrarProduto();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnNewButton.setBounds(480, 460, 358, 60);
 		contentPane.add(btnNewButton);
+	}
+
+	protected void cadastrarProduto() throws SQLException {
+		Produto p = new Produto();
+		p.setNome(tnome.getText());
+		DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		 
+		try {
+			 LocalDate dataConvertida = LocalDate.parse(tvalidade.getText(), formatador);
+			 p.setDataDeValidade(dataConvertida);
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(null,"Data Inválida","Info",JOptionPane.INFORMATION_MESSAGE);
+
+		}
+		
+		p.setCodigoDeBarras(tcodigo.getText());
+		
+		ProdutoDao.Cadastrar(p);
+		
+		
+		
 	}
 }

@@ -1,11 +1,20 @@
-package Model;
+package model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Produto {
+	private Integer id;
 	private String nome;
-	private Date dataDeValidade;
+	private LocalDate dataDeValidade;
 	private String codigoDeBarras;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 	public String getNome() {
 		return nome;
@@ -13,11 +22,11 @@ public class Produto {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Date getDataDeValidade() {
+	public LocalDate getDataDeValidade() {
 		return dataDeValidade;
 	}
-	public void setDataDeValidade(Date dataDeValidade) {
-		this.dataDeValidade = dataDeValidade;
+	public void setDataDeValidade(LocalDate dataConvertida) {
+		this.dataDeValidade = dataConvertida;
 	}
 	public String getCodigoDeBarras() {
 		return codigoDeBarras;

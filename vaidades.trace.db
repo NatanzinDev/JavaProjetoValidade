@@ -1,0 +1,3 @@
+2025-10-04 19:37:34.259688-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUTO" not found (this database is empty); SQL statement:
+INSERT INTO PRODUTO (nome,validade,codigo) VALUES (?,?,?) [42104-240]
