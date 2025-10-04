@@ -1,6 +1,6 @@
 # JavaProjetoValidade
 
 <ul>
-  <li>Conexão com o banco</li>
   <li>Lógica para ordenação</li>
+  <li>Validação de campos de cadastro de produto</li>
 </ul>
